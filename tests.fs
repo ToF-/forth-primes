@@ -29,4 +29,7 @@ T{ ." 4807 is not prime" CR
     4807 IS-PRIME? ?FALSE
 }T
 
+T{ ." 99999787 is prime" CR
+   99999787 IS-PRIME? ?TRUE
+}T
 BYE
