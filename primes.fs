@@ -11,11 +11,17 @@
 : SQUARED ( n -- n )
     DUP * ;
 
+: WITHIN-LIMIT ( n,i -- f )
+    SQUARED >= ;
+
+: MULTIPLE ( n,m -- f )
+    MOD 0= ;
+
 : OPTIMIZED-NAIVE-IS-PRIME? ( n -- f )
     TRUE >R 2
     BEGIN
-        2DUP SQUARED >= R@ AND WHILE
-        2DUP MOD 0= IF
+        2DUP WITHIN-LIMIT R@ AND WHILE
+        2DUP MULTIPLE IF
             R> DROP FALSE >R
         THEN
         1+
