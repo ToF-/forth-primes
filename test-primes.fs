@@ -1,6 +1,7 @@
 INCLUDE ffl/tst.fs
 INCLUDE primes.fs
 
+CR ." primes" CR CR
 T{ ." 1 is not prime" CR
     1 IS-PRIME? ?FALSE
 }T
