@@ -20,7 +20,65 @@ REQUIRE bitset.fs
 
 \ a 4-bit nibble can store prime info for numbers b+1,b+3,b+7,b+9, where b = 10*n
 \ for instance with n = 2, the nibble 0101 stores 21 is composite, 23 is prime, 27 is composite, 29 is prime
-\ multiples of 2 and 5 and never stored, each nibble stores informations for numbers 10*b to 10*b+9
+\ multiples of 2 and 5 and never stored, each nibble stores information for numbers 10*b to 10*b+9
+\ thus a byte stores information from numbers 20*b to 20*b+19
+\ to store info about primes from 0 to 1000000 takes 500000 bytes
+
+500000 CONSTANT MAX-PTABLE
+CREATE PTABLE MAX-PTABLE ALLOT
+PTABLE MAX-PTABLE ERASE
+
+: P-OFFSET-BIT ( n -- b )
+    DUP 20 MOD 5 / 2* 
+    SWAP 10 MOD 3 MOD 0= IF 1 ELSE 0 THEN + ;
+
+\ to find which byte stores info about number n, o = n/20
+\ to find which bit stores info about number n at offset o, i = 7-j
+\ where j = (n%20)/5 * 2 + ((n%10)%3==0) ? 1 : 0
+
+: P-TABLE-OFFSET ( p -- n,b ) \ p is prime, 5 < p < 1000000
+    DUP 20 /
+    SWAP P-OFFSET-BIT ;
+
+: P-TABLE-PRIME! ( p -- ) \ p is prime, 5 < p < 1000000
+    P-TABLE-OFFSET
+    1 SWAP LSHIFT
+    SWAP PTABLE +
+    DUP C@ ROT OR SWAP C! ;
+
+: P-TABLE-PRIME? ( n -- f )
+    DUP 2 MOD 0= IF 
+        2 =
+    ELSE
+        DUP 5 MOD 0= IF
+            5 =
+        ELSE
+            P-TABLE-OFFSET
+            SWAP PTABLE + C@
+            1 ROT LSHIFT AND
+        THEN
+    THEN ;
+
+: INIT-PTABLE
+    ." initializing ptable.."
+    1000000 1 DO
+        I IS-PRIME? IF
+            I P-TABLE-PRIME!
+        THEN
+    LOOP ;
+
+CR INIT-PTABLE
+
+: TEST-PTABLE
+    1000000 2 DO
+        I P-TABLE-PRIME? IF I . CR THEN
+    LOOP ;
+
+CR TEST-PTABLE
+\ where j = (n%20)/5 * 2 + (n%20)&8/8
+\ let h = ((n%20) -1)/ 5* 2       
+
+\ 0,1,2,3,4,5 → 
 \ a 64 bits cell can thus store information for 10*b to 10*b+159
 \ to retrieve if a number n is prime :
 \ if n is even then f = n == 2
@@ -41,28 +99,4 @@ REQUIRE bitset.fs
 
 \ to find if n is prime:
 \ if n is even or multiple of 5  
-: PRIMES, ( n -- )
-    2 DO I IS-PRIME? IF I , THEN LOOP ;
-
-10000 CONSTANT MAX-PRIMES
-CREATE PRIMES
-HERE
-MAX-PRIMES PRIMES,
-HERE SWAP - CELL / CONSTANT #PRIMES
-
-: OFFSET-P ( a, p -- -a%p )
-    SWAP NEGATE SWAP MOD ;
-
-
-
-: TEST #PRIMES 0 DO PRIMES I CELLS + @ . LOOP ;
-
-TEST
 BYE
-
-\ swap negate swap mod
-
-\ initialize a table of primes from 2 to √t
-\ then use it to create a table of primes from 2 to t
-\ then use 
-
