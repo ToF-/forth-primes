@@ -27,17 +27,19 @@ REQUIRE bitset.fs
 \ if n%5 == 0 then f = n == 5
 \ cell offset to consider:  i = n / 160
 \ nibble to consider in that cell: j = 15 - (n % 160) / 10
-\ bit to consider in that nibble: k = (n % 160) % 9=0 ? 0   … 7 ? 1 … 3 ? 2  … 1 ? 3
+\ bit to consider in that nibble: k = (n % 160) % 10 =0 ? 0   … 7 ? 1 … 3 ? 2  … 1 ? 3
 \ e.g  n % 160  | j
 \            1  | 63
 \            3  | 62
 \            7  | 61
 \            9  | 60
 \           11  | 59
-\           13  | 61
-\           17  | 63
-\           19  | 62
+\           …   | …
+\          157  |  2
+\          158  |  1
+\          159  |  0
 
+\ to find if n is prime:
 \ if n is even or multiple of 5  
 : PRIMES, ( n -- )
     2 DO I IS-PRIME? IF I , THEN LOOP ;
