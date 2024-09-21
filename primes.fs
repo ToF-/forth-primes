@@ -1,35 +1,45 @@
+REQUIRE bitset.fs
 
-: NAIVE-IS-PRIME? ( n -- f )
-    0 SWAP
-    DUP 1+ 1 DO
-        DUP I MOD 0= IF
-            SWAP 1+ SWAP
-        THEN
-    LOOP DROP
-    2 = ;
-
-: SQUARED ( n -- n )
-    DUP * ;
-
-: WITHIN-LIMIT ( n,i -- f )
-    SQUARED >= ;
-
-: MULTIPLE ( n,m -- f )
-    MOD 0= ;
-
-: OPTIMIZED-NAIVE-IS-PRIME? ( n -- f )
-    TRUE >R 2
+: TRIAL-PRIME? ( n -- f )
+    TRUE >R                          \ result ← false
+    2                                \  n,i
     BEGIN
-        2DUP WITHIN-LIMIT R@ AND WHILE
-        2DUP MULTIPLE IF
-            R> DROP FALSE >R
-        THEN
-        1+
+        2DUP DUP * >=              \ while i ≤ √n and no multiple found
+        R@ AND WHILE
+        2DUP MOD 0=
+        IF R> DROP FALSE >R THEN     \ result ← false
+        1+                           \ next
     REPEAT 2DROP R> ;
 
 : IS-PRIME? ( n -- f )
     DUP 2 < IF
         DROP FALSE
     ELSE
-       OPTIMIZED-NAIVE-IS-PRIME?
+       TRIAL-PRIME?
     THEN ;
+
+: PRIMES, ( n -- )
+    2 DO I IS-PRIME? IF I , THEN LOOP ;
+
+10000 CONSTANT MAX-PRIMES
+CREATE PRIMES
+HERE
+MAX-PRIMES PRIMES,
+HERE SWAP - CELL / CONSTANT #PRIMES
+
+: OFFSET-P ( a, p -- -a%p )
+    SWAP NEGATE SWAP MOD ;
+
+
+
+: TEST #PRIMES 0 DO PRIMES I CELLS + @ . LOOP ;
+
+TEST
+BYE
+
+\ swap negate swap mod
+
+\ initialize a table of primes from 2 to √t
+\ then use it to create a table of primes from 2 to t
+\ then use 
+
