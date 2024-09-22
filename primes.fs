@@ -47,17 +47,12 @@ PTABLE MAX-PTABLE ERASE
     DUP C@ ROT OR SWAP C! ;
 
 : P-TABLE-PRIME? ( n -- f )
-    DUP 2 MOD 0= IF 
-        2 =
+    DUP 2 MOD 0= IF 2 = ELSE DUP 5 MOD 0= IF 5 =
     ELSE
-        DUP 5 MOD 0= IF
-            5 =
-        ELSE
-            P-TABLE-OFFSET
-            SWAP PTABLE + C@
-            1 ROT LSHIFT AND
-        THEN
-    THEN ;
+        P-TABLE-OFFSET
+        SWAP PTABLE + C@
+        1 ROT LSHIFT AND
+    THEN THEN ;
 
 : INIT-PTABLE
     ." initializing ptable.."
@@ -69,12 +64,17 @@ PTABLE MAX-PTABLE ERASE
 
 CR INIT-PTABLE
 
+: .PTABLE
+    HEX
+    PTABLE  MAX-PTABLE CELLS OVER + SWAP DO I @ DUP IF 20 U.R CR ELSE DROP THEN CELL +LOOP ;
+
 : TEST-PTABLE
     1000000 2 DO
         I P-TABLE-PRIME? IF I . CR THEN
     LOOP ;
 
-CR TEST-PTABLE
+\ CR TEST-PTABLE
+CR .PTABLE
 \ where j = (n%20)/5 * 2 + (n%20)&8/8
 \ let h = ((n%20) -1)/ 5* 2       
 
