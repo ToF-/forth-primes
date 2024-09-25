@@ -23,14 +23,6 @@ To know if a number N is prime, we divide it by numbers from 2 to √N : if none
     <span style="color:#009999; font-weight:bold;">2DROP</span> <span style="color:#993300; font-weight:bold;">;</span>
 </pre>
 
-The `IS-PRIME?` word expects a number on the stack and leaves a `TRUE` flag if this number is prime. 
-
-A default value of `TRUE` is tucked behind the argument, then we begin the division loop starting with divisor D = 2.
-
-This loop should go on while D ≤ √N, i.e. as long as N ≥ D².
-
-If D is a multiple of N, we drop the result flag and replace it with `FALSE`. Then we swap N and D values, so that the loop stops at the next comparison.
-If no multiple is found yet, we increment the divisor and loop.
-The word ends with dropping N and D, leaving the result flag on the stack.
+The `IS-PRIME?` word expects a number on the stack and leaves a boolean flag. It starts by tucking a `TRUE` value behind the number argument, then tries divisors from 2 to *√n* (or as the code says, as long as *n ≥ d²*). If a divisor is found, it sets the result flat to `FALSE` and swap *n* and *d* so that the loop ist forced to stop. Otherwise, it goes on with the next divisor. We don't need to try _all_ divisors, only divisors up to *√N* because if *xy = n* and *x > √n*, then *y < √n* and thus would have been found before we get to try *x*. At the end of the loop, *n* and *d* are dropped, leaving the reasult flag.
 
 
