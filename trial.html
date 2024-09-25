@@ -1,8 +1,3 @@
-# A simple, inefficient program
-
-To know if a number N is prime, we divide it by numbers from 2 to √N : if none of these numbers divide N, then N is prime.
-
-
 <pre style="color:#000000;background:#F2F2F2;"><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">trial.fs   compute primes by trial division algorithm
 </span><span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">SQUARED</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- n² )</span>
     <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#CC6600; font-weight:bold;">*</span> <span style="color:#993300; font-weight:bold;">;</span>
@@ -21,16 +16,9 @@ To know if a number N is prime, we divide it by numbers from 2 to √N : if none
         <span style="color:#CC6600; font-weight:bold;">1+</span>
     <span style="color:#993300; font-weight:bold;">REPEAT</span>
     <span style="color:#009999; font-weight:bold;">2DROP</span> <span style="color:#993300; font-weight:bold;">;</span>
+
+<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">TEST</span>
+    <span style="color:#800000; font-weight:bold;">1000000</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#993300; font-weight:bold;">DO</span> <span style="color:#993300; font-weight:bold;">I</span> <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">IS-PRIME?</span> <span style="color:#993300; font-weight:bold;">IF</span> <span style="color:#CC6600; font-weight:bold;">.</span> <span style="color:#3D3D5C; font-weight:bold;">CR</span> <span style="color:#993300; font-weight:bold;">ELSE</span> <span style="color:#009999; font-weight:bold;">DROP</span> <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">LOOP</span> <span style="color:#993300; font-weight:bold;">;</span>
+
+<span style="color:#336699; font-weight:bold;">TEST</span> <span style="color:#3D3D5C; font-weight:bold;">BYE</span>
 </pre>
-
-The `IS-PRIME?` word expects a number on the stack and leaves a `TRUE` flag if this number is prime. 
-
-A default value of `TRUE` is tucked behind the argument, then we begin the division loop starting with divisor D = 2.
-
-This loop should go on while D ≤ √N, i.e. as long as N ≥ D².
-
-If D is a multiple of N, we drop the result flag and replace it with `FALSE`. Then we swap N and D values, so that the loop stops at the next comparison.
-If no multiple is found yet, we increment the divisor and loop.
-The word ends with dropping N and D, leaving the result flag on the stack.
-
-
