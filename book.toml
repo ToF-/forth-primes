@@ -1,0 +1,6 @@
+[book]
+authors = ["Christophe Thibaut"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Forth Primes"
