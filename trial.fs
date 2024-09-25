@@ -5,6 +5,7 @@
         2DUP DUP * >= WHILE
             2DUP MOD 0= IF
                 ROT DROP FALSE -ROT
+                SWAP
             THEN
         1+
     REPEAT
