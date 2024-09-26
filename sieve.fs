@@ -82,12 +82,13 @@ CREATE SIEVE-MASKS
     1 SIEVE!
     MAX-PRIMES 1 DO
         I NTH-PRIME DUP
+        DUP SQUARED
         BEGIN
-            OVER +
             DUP SIEVE-LIMIT < WHILE
             DUP SIEVE!
+            OVER +
         REPEAT
-        2DROP
+        2DROP DROP
     LOOP ;
 
 INIT-SIEVE
