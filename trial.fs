@@ -20,3 +20,5 @@
 : .PRIMES ( n -- )
     2 DO I DUP IS-PRIME? IF . CR ELSE DROP THEN LOOP ;
 
+: #PRIMES ( n -- t )
+    0 SWAP 2 DO I IS-PRIME? IF 1+ THEN LOOP ;

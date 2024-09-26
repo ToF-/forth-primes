@@ -1,4 +1,10 @@
-\ p-trial.fs   compute primes by trial division algorithm, using primes as divisors
+\ p-trial.fs   compute primes by trial division algorithm, using prime divisors
+
+: SQUARED ( n -- n² )
+    DUP * ;
+
+: IS-MULTIPLE? ( m,n -- f )
+    MOD 0= ;
 
 CREATE PRIMES
   2 C,   3 C,   5 C,   7 C,  11 C,  13 C,  17 C,  19 C,  23 C,
@@ -12,12 +18,6 @@ CREATE PRIMES
 
 : NTH-PRIME ( n -- p )
     PRIMES + C@ ;
-
-: SQUARED ( n -- n² )
-    DUP * ;
-
-: IS-MULTIPLE? ( m,n -- f )
-    MOD 0= ;
 
 : IS-PRIME? ( n -- f )
     ASSERT( DUP 65536 < )
