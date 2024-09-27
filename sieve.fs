@@ -3,9 +3,6 @@
 : SQUARED ( n -- n² )
     DUP * ;
 
-: IS-MULTIPLE? ( m,n -- f )
-    MOD 0= ;
-
 : REVERSE ( bits -- bits )
     255 XOR ;
 
@@ -45,7 +42,7 @@ CREATE SIEVE SIEVE-SIZE ALLOT
 
 : INIT-SIEVE
     SIEVE SIEVE-SIZE 255 FILL
-    1 SIEVE!
+    0 SIEVE! 1 SIEVE!
     MAX-PRIMES 0 DO
         I NTH-PRIME
         DUP DUP SQUARED
