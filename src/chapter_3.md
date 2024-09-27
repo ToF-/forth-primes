@@ -4,15 +4,12 @@ An efficient way to find primes is to use the Sieve of Eratosthenes algorithm.
 
 For every prime number *p*, we mark *p.p*, *(p+1)p*, *(p+2)p*, … *(p+n)p* as composite.
 
-For instance, prime numbers 2,3,5,7, 11 and 13 allow the marking of all composites ≤ 100 :
+For instance, prime numbers 2,3,5, and 7 allow the marking of all composites ≤ 100 :
 
-- 2 :  {4, 6, 8, 10, 12, …, 100}
-- 3 :  {9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 66, 69, 75, 81, 87, 93, 99}
+- 2 : {4, 6, 8, 10, 12, …, 100}
+- 3 : {9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 66, 69, 75, 81, 87, 93, 99}
 - 5 : {25, 30, 35, 55, 65, 85, 95}
 - 7 : {49, 77, 91}
-- 11 : {} 
-- 13 : {}
-
 
 <pre style="color:#000000;background:#F2F2F2;"><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">sieve.fs compute primes with the sieve of Eratosthenes algorithm
 </span>
