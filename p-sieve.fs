@@ -114,6 +114,16 @@ CREATE #BIT-NUMBERS 1 C, 3 C, 7 C, 9 C, 11 C, 13 C, 17 C, 19 C,
         DUP SIEVE-BIT>NUMBER
     THEN THEN THEN ;
 
+: .ALL-PRIMES ( n -- )
+    >R
+    0 0
+    BEGIN
+        NEXT-PRIME
+        DUP R@ < WHILE
+        DUP . CR
+    REPEAT
+    2DROP R> DROP ;
+
 : .PRIMES ( m,n -- )
     SWAP DO I IS-PRIME? IF I . CR THEN LOOP ;
 
