@@ -94,10 +94,25 @@ INIT-SIEVE
 
 : NEXT-NON-ZERO-BIT ( n -- n' )
     BEGIN
-        1+ DUP
-        SIEVE-POS C@
-        OVER SIEVE-MASK AND
+        1+ DUP 8 /MOD
+        SIEVE + C@
+        1 ROT LSHIFT AND
     UNTIL ;
+
+CREATE #BIT-NUMBERS 1 C, 3 C, 7 C, 9 C, 11 C, 13 C, 17 C, 19 C,
+
+: SIEVE-BIT>NUMBER ( n -- p )
+    8 /MOD FLAGS/BYTE *
+    SWAP #BIT-NUMBERS + C@ + ;
+
+: NEXT-PRIME ( c,p -- c',p')
+    2DUP + DUP 0= IF DROP 2DROP 0 2
+    ELSE DUP 2 = IF DROP 2DROP 0 3
+    ELSE 3 = IF 2DROP 1 5
+    ELSE
+        DROP NEXT-NON-ZERO-BIT
+        DUP SIEVE-BIT>NUMBER
+    THEN THEN THEN ;
 
 : .PRIMES ( m,n -- )
     SWAP DO I IS-PRIME? IF I . CR THEN LOOP ;
