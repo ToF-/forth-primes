@@ -92,6 +92,13 @@ INIT-SIEVE
         SIEVE-POS C@ SWAP AND
     THEN THEN ;
 
+: NEXT-NON-ZERO-BIT ( n -- n' )
+    BEGIN
+        1+ DUP
+        SIEVE-POS C@
+        OVER SIEVE-MASK AND
+    UNTIL ;
+
 : .PRIMES ( m,n -- )
     SWAP DO I IS-PRIME? IF I . CR THEN LOOP ;
 
