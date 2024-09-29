@@ -92,37 +92,40 @@ INIT-SIEVE
         SIEVE-POS C@ SWAP AND
     THEN THEN ;
 
-: NEXT-NON-ZERO-BIT ( n -- n' )
+CREATE #BIT-NUMBERS 1 C, 3 C, 7 C, 9 C, 11 C, 13 C, 17 C, 19 C,
+
+: PRIME-POS>NUMBER ( n -- p )
+    8 /MOD FLAGS/BYTE *
+    SWAP #BIT-NUMBERS + C@ + ;
+
+: NEXT-PRIME-POS ( n -- n' )
     BEGIN
         1+ DUP 8 /MOD
         SIEVE + C@
         1 ROT LSHIFT AND
     UNTIL ;
 
-CREATE #BIT-NUMBERS 1 C, 3 C, 7 C, 9 C, 11 C, 13 C, 17 C, 19 C,
+-2 CONSTANT PRIME-POS-2
+-1 CONSTANT PRIME-POS-3
+ 0 CONSTANT PRIME-POS-5
 
-: SIEVE-BIT>NUMBER ( n -- p )
-    8 /MOD FLAGS/BYTE *
-    SWAP #BIT-NUMBERS + C@ + ;
-
-: NEXT-PRIME ( c,p -- c',p')
-    2DUP + DUP 0= IF DROP 2DROP 0 2
-    ELSE DUP 2 = IF DROP 2DROP 0 3
-    ELSE 3 = IF 2DROP 1 5
+: NEXT-PRIME ( c -- c',p)
+         DUP PRIME-POS-2 = IF 1+ 2
+    ELSE DUP PRIME-POS-3 = IF 1+ 3
+    ELSE DUP PRIME-POS-5 = IF 1+ 5
     ELSE
-        DROP NEXT-NON-ZERO-BIT
-        DUP SIEVE-BIT>NUMBER
+        NEXT-PRIME-POS
+        DUP PRIME-POS>NUMBER
     THEN THEN THEN ;
 
 : .ALL-PRIMES ( n -- )
-    >R
-    0 0
+    >R PRIME-POS-2
     BEGIN
         NEXT-PRIME
         DUP R@ < WHILE
-        DUP . CR
+        . CR
     REPEAT
-    2DROP R> DROP ;
+    DROP R> DROP ;
 
 : .PRIMES ( m,n -- )
     SWAP DO I IS-PRIME? IF I . CR THEN LOOP ;
