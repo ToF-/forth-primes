@@ -130,3 +130,10 @@ CREATE #BIT-NUMBERS 1 C, 3 C, 7 C, 9 C, 11 C, 13 C, 17 C, 19 C,
 : .PRIMES ( m,n -- )
     SWAP DO I IS-PRIME? IF I . CR THEN LOOP ;
 
+: PRIME-COUNT ( m,n -- n )
+    0 -ROT
+    1+ SWAP DO
+        I IS-PRIME? IF
+            1+
+        THEN
+    LOOP ;
