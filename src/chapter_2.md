@@ -1,4 +1,4 @@
-# Using primes to find primes
+# Using prime divisors to find primes
 
 Not all numbers have to be tried as divisors to check if a number is prime: the fundamental theorem of arithmetics says that every integer greater than 1 can be uniquely represented as a product of prime numbers. Thus any division by a composite number is redundant if the division by its prime factors have been already tried. For instance 4807 is 11 x 13 x 23, so only divisions by 2,3,5,7 and 11 should be tried to find that 4807 is not prime, and divisions by 4,6,8,9,10 are redundant.
 
@@ -30,11 +30,11 @@ Here's a program that outputs the code for such a table initialization. It loops
 <span style="color:#008000; font-weight:bold;">."</span> <span style="color:#008000; font-weight:bold;">    CELLS SMALL-PRIMES + @ ;"</span> <span style="color:#3D3D5C; font-weight:bold;">CR</span>
 <span style="color:#3D3D5C; font-weight:bold;">BYE</span>
 </pre>
-Lauching this program will output the code we need:
+Lauching this program and capturing its output
 ```
 > gforth print-init-168-primes >small-primes
 ```
-We can capture this output and use it in our new program:
+Will give us exactly what we need to improve our trial program.
 
 <pre><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">small-primes.fs
 </span>
@@ -60,45 +60,3 @@ We can capture this output and use it in our new program:
 </pre>
 
 
-----
-
-
-<span style="color:#336699; font-weight:bold;">SMALL-PRIME-LIMIT</span> <span style="color:#336699; font-weight:bold;">SQUARED</span> <span style="color:#F07F00; font-weight:bold;">CONSTANT</span> <span style="color:#336699; font-weight:bold;">PRIME-LIMIT</span>
-</pre>
-Now our main word will loop over the `SMALL-PRIMES` table to try each divisor P for the argument N. If P² > N, we leave the loop, and the result flag will still be true. If D divides N, we also leave the loop, but change the result flag to `FALSE`first.
-<pre>
-<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">IS-PRIME?</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- f )</span>
-    <span style="color:#3D3D5C; font-weight:bold;">ASSERT(</span> <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">PRIME-LIMIT</span> <span style="color:#CC6600; font-weight:bold;">&lt;=</span> <span style="color:#3D3D5C; font-weight:bold;">)</span>
-    <span style="color:#CC6600; font-weight:bold;">TRUE</span> <span style="color:#009999; font-weight:bold;">SWAP</span>
-    <span style="color:#336699; font-weight:bold;">SMALL-PRIMES-MAX</span> <span style="color:#800000; font-weight:bold;">0</span> <span style="color:#993300; font-weight:bold;">DO</span>
-        <span style="color:#993300; font-weight:bold;">I</span> <span style="color:#336699; font-weight:bold;">NTH-PRIME</span>
-        <span style="color:#009999; font-weight:bold;">2DUP</span> <span style="color:#336699; font-weight:bold;">SQUARED</span> <span style="color:#CC6600; font-weight:bold;">&lt;</span> <span style="color:#993300; font-weight:bold;">IF</span>
-            <span style="color:#009999; font-weight:bold;">DROP</span> <span style="color:#993300; font-weight:bold;">LEAVE</span>
-        <span style="color:#993300; font-weight:bold;">ELSE</span>
-            <span style="color:#009999; font-weight:bold;">OVER</span> <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#336699; font-weight:bold;">IS-MULTIPLE?</span> <span style="color:#993300; font-weight:bold;">IF</span>
-                <span style="color:#009999; font-weight:bold;">NIP</span> <span style="color:#CC6600; font-weight:bold;">FALSE</span> <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#993300; font-weight:bold;">LEAVE</span>
-            <span style="color:#993300; font-weight:bold;">THEN</span>
-        <span style="color:#993300; font-weight:bold;">THEN</span>
-    <span style="color:#993300; font-weight:bold;">LOOP</span> <span style="color:#009999; font-weight:bold;">DROP</span> <span style="color:#993300; font-weight:bold;">;</span>
-</pre>
-The top level words are unchanged:
-<pre>
-<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">.PRIMES</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- )</span>
-    <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#993300; font-weight:bold;">DO</span>
-        <span style="color:#993300; font-weight:bold;">I</span> <span style="color:#336699; font-weight:bold;">IS-PRIME?</span> <span style="color:#993300; font-weight:bold;">IF</span>
-            <span style="color:#993300; font-weight:bold;">I</span> <span style="color:#CC6600; font-weight:bold;">.</span> <span style="color:#3D3D5C; font-weight:bold;">CR</span>
-        <span style="color:#993300; font-weight:bold;">THEN</span>
-   <span style="color:#993300; font-weight:bold;">LOOP</span> <span style="color:#993300; font-weight:bold;">;</span>
-
-<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">PRIME-COUNT</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- t )</span>
-    <span style="color:#800000; font-weight:bold;">0</span> <span style="color:#009999; font-weight:bold;">SWAP</span>
-    <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#993300; font-weight:bold;">DO</span>
-        <span style="color:#993300; font-weight:bold;">I</span> <span style="color:#336699; font-weight:bold;">IS-PRIME?</span> <span style="color:#993300; font-weight:bold;">IF</span>
-            <span style="color:#CC6600; font-weight:bold;">1+</span>
-        <span style="color:#993300; font-weight:bold;">THEN</span>
-    <span style="color:#993300; font-weight:bold;">LOOP</span> <span style="color:#993300; font-weight:bold;">;</span>
-</pre>
-Now our performance test call:
-```
-gforth p-trials.fs -e "1000000 PRIME-COUNT . BYE"
-```
