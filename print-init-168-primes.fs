@@ -10,7 +10,12 @@ REQUIRE trial.fs
                 CR
             THEN
         THEN
-    LOOP DROP CR ;
+    LOOP CR . ;
 
+." \ small-primes.fs" CR CR
+." CREATE SMALL-PRIMES" CR CR
 .PRIME-TABLE
+." CONSTANT SMALL-PRIMES-MAX" CR CR
+." : NTH-PRIME ( n -- p )" CR
+."     CELLS SMALL-PRIMES + @ ;" CR
 BYE
