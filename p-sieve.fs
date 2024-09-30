@@ -83,30 +83,30 @@ INIT-SIEVE
         SIEVE-POS @ SWAP AND
     THEN THEN ;
 
-CREATE #BIT-NUMBERS 1 C, 3 C, 7 C, 9 C, 11 C, 13 C, 17 C, 19 C,
+: BIT-VALUE-OFFSET ( n -- o )
+    4 MOD
+    2 = IF
+        2
+    ELSE
+        0
+    THEN 2 + ;
 
-\ : PRIME-POS>NUMBER ( n -- p )
-\     8 /MOD FLAGS/BYTE *
-\     SWAP #BIT-NUMBERS + C@ + ;
-\ 
-\ : NEXT-PRIME-POS ( n -- n' )
-\     BEGIN
-\         1+ DUP 8 /MOD
-\         SIEVE + C@
-\         1 ROT LSHIFT AND
-\     UNTIL ;
-\ 
-\ -2 CONSTANT PRIME-POS-2
-\ -1 CONSTANT PRIME-POS-3
-\  0 CONSTANT PRIME-POS-5
-\ 
-\ : NEXT-PRIME ( c -- c',p)
-\          DUP PRIME-POS-2 = IF 1+ 2
-\     ELSE DUP PRIME-POS-3 = IF 1+ 3
-\     ELSE DUP PRIME-POS-5 = IF 1+ 5
-\     ELSE
-\         NEXT-PRIME-POS
-\         DUP PRIME-POS>NUMBER
+: NEXT-SIEVE-VALUE ( n,v -- n',v' )
+    2DUP 2 3 D= IF 2DROP 2 5 ELSE
+    2DUP 2 5 D= IF 2DROP 3 7 ELSE
+    OVER BIT-VALUE-OFFSET + SWAP 1+ SWAP 
+    THEN THEN ;
+
+: NEXT-PRIME ( n,p -- n',p' )
+    BEGIN
+        NEXT-SIEVE-VALUE           \ n,p
+        DUP PRIME-LIMIT <= >R      \ n,p
+        OVER FLAGS/CELL MOD 1 SWAP LSHIFT
+        OVER SIEVE-POS
+        @ SWAP AND 0=
+        R> AND WHILE
+    REPEAT ;
+
 \     THEN THEN THEN ;
 \ 
 \ : .ALL-PRIMES ( n -- )
