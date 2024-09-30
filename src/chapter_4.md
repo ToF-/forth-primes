@@ -88,3 +88,4 @@ After initializing the sieve, the top level words are unchanged.
         <span style="color:#993300; font-weight:bold;">THEN</span>
     <span style="color:#993300; font-weight:bold;">LOOP</span> <span style="color:#993300; font-weight:bold;">;</span>
 </pre>
+Now our quest to count the primes up to 1000000 takes 0.6 seconds.

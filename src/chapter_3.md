@@ -47,4 +47,4 @@ The top level words are unchanged.
         <span style="color:#993300; font-weight:bold;">THEN</span>
     <span style="color:#993300; font-weight:bold;">LOOP</span> <span style="color:#993300; font-weight:bold;">;</span>
 </pre>
-Computing the number of primes up to 1000000 now takes around 1.5 seconds.
+Counting the primes up to 1000000 takes 1.6 seconds.
