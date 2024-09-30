@@ -83,6 +83,20 @@ INIT-SIEVE
         SIEVE-POS @ SWAP AND
     THEN THEN ;
 
+
+: BIT#>NUMBER ( b -- n )
+    DUP 4 / 10 *
+    SWAP 4 MOD
+    DUP 2* 1+
+    SWAP 2/ 2*
+    + + ;
+
+
+: SIEVE-NUMBER ( c -- n )
+    DUP 64 /MOD
+    FLAGS/CELL *
+    SWAP BIT#>NUMBER + ;
+
 : BIT-VALUE-OFFSET ( n -- o )
     4 MOD
     2 = IF
