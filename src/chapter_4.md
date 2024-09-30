@@ -9,7 +9,10 @@ The idea of using primes to find primes can be improved further with the Sieve o
 | 5    | { 25, 35, 55, 65, 85, 95} |
 | 7    | { 49, 77, 91} |
 
-The remaining non marked numbers smaller than 100 are 11,1
+The remaining numbers smaller than 100 that are non marked in this process: 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 are all prime numbers.
+
+The Sieve of Eratosthenes, used with primes from 2 to P, can be used to determines primes up to P². What we need is a table storing a boolean value for each number in the range.
+
 
 
 
