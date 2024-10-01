@@ -8,52 +8,39 @@
 <span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">IS-MULTIPLE?</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n,m -- f )</span>
     <span style="color:#CC6600; font-weight:bold;">MOD</span> <span style="color:#CC6600; font-weight:bold;">0=</span> <span style="color:#993300; font-weight:bold;">;</span>
 
-<span style="color:#800000; font-weight:bold;">1000</span> <span style="color:#336699; font-weight:bold;">SQUARED</span> <span style="color:#F07F00; font-weight:bold;">CONSTANT</span> <span style="color:#336699; font-weight:bold;">PRIME-LIMIT</span>
-
-<span style="color:#336699; font-weight:bold;">PRIME-LIMIT</span> <span style="color:#800000; font-weight:bold;">20</span> <span style="color:#CC6600; font-weight:bold;">/</span> <span style="color:#F07F00; font-weight:bold;">CONSTANT</span> <span style="color:#336699; font-weight:bold;">SIEVE-SIZE</span>
-
-<span style="color:#F07F00; font-weight:bold;">CREATE</span> <span style="color:#336699; font-weight:bold;">SIEVE</span> <span style="color:#336699; font-weight:bold;">SIEVE-SIZE</span> <span style="color:#CC3300; font-weight:bold;">ALLOT</span>
-
-<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">NOR</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">f,g -- ! [f or g] )</span>
-    <span style="color:#CC6600; font-weight:bold;">OR</span> <span style="color:#CC6600; font-weight:bold;">0=</span> <span style="color:#993300; font-weight:bold;">;</span>
+<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">NOT-2-OR-5-MULTIPLE?</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- f )</span>
+    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#CC6600; font-weight:bold;">MOD</span> <span style="color:#993300; font-weight:bold;">IF</span>
+        <span style="color:#800000; font-weight:bold;">5</span> <span style="color:#CC6600; font-weight:bold;">MOD</span>
+    <span style="color:#993300; font-weight:bold;">ELSE</span>
+        <span style="color:#009999; font-weight:bold;">DROP</span> <span style="color:#CC6600; font-weight:bold;">FALSE</span>
+    <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">;</span>
 
 <span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">REVERSE</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">b -- b )</span>
     <span style="color:#800000; font-weight:bold;">255</span> <span style="color:#CC6600; font-weight:bold;">XOR</span> <span style="color:#993300; font-weight:bold;">;</span>
 
-<span style="color:#800000; font-weight:bold;">160</span> <span style="color:#F07F00; font-weight:bold;">CONSTANT</span> <span style="color:#336699; font-weight:bold;">FLAGS/CELL</span>
-
 <span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">BITMASK</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- v )</span>
     <span style="color:#800000; font-weight:bold;">1</span> <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#CC6600; font-weight:bold;">LSHIFT</span> <span style="color:#993300; font-weight:bold;">;</span>
 
-<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">INIT-SIEVE-MASKS</span>
-    <span style="color:#800000; font-weight:bold;">0</span>
-    <span style="color:#800000; font-weight:bold;">160</span> <span style="color:#800000; font-weight:bold;">0</span> <span style="color:#993300; font-weight:bold;">DO</span>
-        <span style="color:#993300; font-weight:bold;">I</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#336699; font-weight:bold;">IS-MULTIPLE?</span> <span style="color:#CC6600; font-weight:bold;">0=</span>
-        <span style="color:#993300; font-weight:bold;">I</span> <span style="color:#800000; font-weight:bold;">5</span> <span style="color:#336699; font-weight:bold;">IS-MULTIPLE?</span> <span style="color:#CC6600; font-weight:bold;">0=</span> 
-        <span style="color:#CC6600; font-weight:bold;">AND</span> <span style="color:#993300; font-weight:bold;">IF</span>
-            <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">BITMASK</span> <span style="color:#CC3300; font-weight:bold;">,</span>
-            <span style="color:#CC6600; font-weight:bold;">1+</span>
-        <span style="color:#993300; font-weight:bold;">ELSE</span>
-            <span style="color:#800000; font-weight:bold;">0</span> <span style="color:#CC3300; font-weight:bold;">,</span>
-        <span style="color:#993300; font-weight:bold;">THEN</span>
-    <span style="color:#993300; font-weight:bold;">LOOP</span> <span style="color:#009999; font-weight:bold;">DROP</span> <span style="color:#993300; font-weight:bold;">;</span>
+<span style="color:#800000; font-weight:bold;">1000</span> <span style="color:#336699; font-weight:bold;">SQUARED</span> <span style="color:#F07F00; font-weight:bold;">CONSTANT</span> <span style="color:#336699; font-weight:bold;">PRIME-LIMIT</span>
+<span style="color:#800000; font-weight:bold;">160</span> <span style="color:#F07F00; font-weight:bold;">CONSTANT</span> <span style="color:#336699; font-weight:bold;">FLAGS/CELL</span>
 
-<span style="color:#F07F00; font-weight:bold;">CREATE</span> <span style="color:#336699; font-weight:bold;">SIEVE-MASKS</span>
+<span style="color:#336699; font-weight:bold;">PRIME-LIMIT</span> <span style="color:#336699; font-weight:bold;">FLAGS/CELL</span> <span style="color:#CC6600; font-weight:bold;">/</span> <span style="color:#CC3300; font-weight:bold;">CELLS</span> <span style="color:#F07F00; font-weight:bold;">CONSTANT</span> <span style="color:#336699; font-weight:bold;">SIEVE-SIZE</span>
 
-<span style="color:#336699; font-weight:bold;">INIT-SIEVE-MASKS</span>
+<span style="color:#F07F00; font-weight:bold;">CREATE</span> <span style="color:#336699; font-weight:bold;">SIEVE</span> <span style="color:#336699; font-weight:bold;">SIEVE-SIZE</span> <span style="color:#CC3300; font-weight:bold;">ALLOT</span>
 
 <span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">SIEVE-POS</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- addr )</span>
     <span style="color:#336699; font-weight:bold;">FLAGS/CELL</span> <span style="color:#CC6600; font-weight:bold;">/</span> <span style="color:#CC3300; font-weight:bold;">CELLS</span> <span style="color:#336699; font-weight:bold;">SIEVE</span> <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#993300; font-weight:bold;">;</span>
 
 <span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">SIEVE-MASK</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- bitmask )</span>
-    <span style="color:#336699; font-weight:bold;">FLAGS/CELL</span> <span style="color:#CC6600; font-weight:bold;">MOD</span> <span style="color:#336699; font-weight:bold;">SIEVE-MASKS</span> <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#CC3300; font-weight:bold;">@</span> <span style="color:#993300; font-weight:bold;">;</span>
+    <span style="color:#336699; font-weight:bold;">FLAGS/CELL</span> <span style="color:#CC6600; font-weight:bold;">MOD</span>
+    <span style="color:#800000; font-weight:bold;">10</span> <span style="color:#CC6600; font-weight:bold;">/MOD</span> <span style="color:#800000; font-weight:bold;">4</span> <span style="color:#CC6600; font-weight:bold;">*</span>
+    <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">5</span> <span style="color:#CC6600; font-weight:bold;">&gt;</span> <span style="color:#993300; font-weight:bold;">IF</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#CC6600; font-weight:bold;">-</span> <span style="color:#993300; font-weight:bold;">THEN</span>
+    <span style="color:#CC6600; font-weight:bold;">2/</span> <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#336699; font-weight:bold;">BITMASK</span> <span style="color:#993300; font-weight:bold;">;</span>
 
 <span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">SIEVE!</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- )</span>
-    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#336699; font-weight:bold;">IS-MULTIPLE?</span> <span style="color:#009999; font-weight:bold;">OVER</span> <span style="color:#800000; font-weight:bold;">5</span> <span style="color:#336699; font-weight:bold;">IS-MULTIPLE?</span> <span style="color:#336699; font-weight:bold;">NOR</span> <span style="color:#993300; font-weight:bold;">IF</span>
-        <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">SIEVE-MASK</span> <span style="color:#CC6600; font-weight:bold;">INVERT</span>
-        <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#336699; font-weight:bold;">SIEVE-POS</span>
-        <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#CC3300; font-weight:bold;">@</span> <span style="color:#009999; font-weight:bold;">ROT</span> <span style="color:#CC6600; font-weight:bold;">AND</span> <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#CC3300; font-weight:bold;">!</span>
-    <span style="color:#993300; font-weight:bold;">ELSE</span> <span style="color:#009999; font-weight:bold;">DROP</span> <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">;</span>
+    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">SIEVE-MASK</span> <span style="color:#CC6600; font-weight:bold;">INVERT</span>
+    <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#336699; font-weight:bold;">SIEVE-POS</span>
+    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#CC3300; font-weight:bold;">@</span> <span style="color:#009999; font-weight:bold;">ROT</span> <span style="color:#CC6600; font-weight:bold;">AND</span> <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#CC3300; font-weight:bold;">!</span> <span style="color:#993300; font-weight:bold;">;</span>
 
 <span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">INIT-SIEVE</span>
     <span style="color:#336699; font-weight:bold;">SIEVE</span> <span style="color:#336699; font-weight:bold;">SIEVE-SIZE</span> <span style="color:#800000; font-weight:bold;">255</span> <span style="color:#CC3300; font-weight:bold;">FILL</span>
@@ -63,7 +50,9 @@
         <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">SQUARED</span>
         <span style="color:#993300; font-weight:bold;">BEGIN</span>
             <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">PRIME-LIMIT</span> <span style="color:#CC6600; font-weight:bold;">&lt;=</span> <span style="color:#993300; font-weight:bold;">WHILE</span>
-            <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">SIEVE!</span>
+            <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">NOT-2-OR-5-MULTIPLE?</span> <span style="color:#993300; font-weight:bold;">IF</span>
+                <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">SIEVE!</span>
+            <span style="color:#993300; font-weight:bold;">THEN</span>
             <span style="color:#009999; font-weight:bold;">OVER</span> <span style="color:#CC6600; font-weight:bold;">+</span>
         <span style="color:#993300; font-weight:bold;">REPEAT</span>
         <span style="color:#009999; font-weight:bold;">2DROP</span> <span style="color:#009999; font-weight:bold;">DROP</span>
@@ -82,49 +71,62 @@
         <span style="color:#336699; font-weight:bold;">SIEVE-POS</span> <span style="color:#CC3300; font-weight:bold;">@</span> <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#CC6600; font-weight:bold;">AND</span>
     <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">;</span>
 
-<span style="color:#F07F00; font-weight:bold;">CREATE</span> <span style="color:#336699; font-weight:bold;">#BIT-NUMBERS</span> <span style="color:#800000; font-weight:bold;">1</span> <span style="color:#CC3300; font-weight:bold;">C,</span> <span style="color:#800000; font-weight:bold;">3</span> <span style="color:#CC3300; font-weight:bold;">C,</span> <span style="color:#800000; font-weight:bold;">7</span> <span style="color:#CC3300; font-weight:bold;">C,</span> <span style="color:#800000; font-weight:bold;">9</span> <span style="color:#CC3300; font-weight:bold;">C,</span> <span style="color:#800000; font-weight:bold;">11</span> <span style="color:#CC3300; font-weight:bold;">C,</span> <span style="color:#800000; font-weight:bold;">13</span> <span style="color:#CC3300; font-weight:bold;">C,</span> <span style="color:#800000; font-weight:bold;">17</span> <span style="color:#CC3300; font-weight:bold;">C,</span> <span style="color:#800000; font-weight:bold;">19</span> <span style="color:#CC3300; font-weight:bold;">C,</span>
+<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;UNITS</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">b -- n )</span>
+    <span style="color:#800000; font-weight:bold;">4</span> <span style="color:#CC6600; font-weight:bold;">MOD</span>
+    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#CC6600; font-weight:bold;">2/</span> <span style="color:#CC6600; font-weight:bold;">2*</span>
+    <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#CC6600; font-weight:bold;">2*</span> <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#993300; font-weight:bold;">;</span>
 
-<span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">: PRIME-POS&gt;NUMBER ( n -- p )
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">    8 /MOD FLAGS/BYTE *
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">    SWAP #BIT-NUMBERS + C@ + ;
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">: NEXT-PRIME-POS ( n -- n' )
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">    BEGIN
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">        1+ DUP 8 /MOD
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">        SIEVE + C@
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">        1 ROT LSHIFT AND
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">    UNTIL ;
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">-2 CONSTANT PRIME-POS-2
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">-1 CONSTANT PRIME-POS-3
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;"> 0 CONSTANT PRIME-POS-5
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">: NEXT-PRIME ( c -- c',p)
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">         DUP PRIME-POS-2 = IF 1+ 2
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">    ELSE DUP PRIME-POS-3 = IF 1+ 3
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">    ELSE DUP PRIME-POS-5 = IF 1+ 5
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">    ELSE
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">        NEXT-PRIME-POS
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">        DUP PRIME-POS&gt;NUMBER
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">    THEN THEN THEN ;
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">: .ALL-PRIMES ( n -- )
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">    &gt;R PRIME-POS-2
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">    BEGIN
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">        NEXT-PRIME
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">        DUP R@ &lt; WHILE
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">        . CR
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">    REPEAT
-</span><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">    DROP R&gt; DROP ;
-</span>
+<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;TENS</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">b -- n )</span>
+    <span style="color:#800000; font-weight:bold;">4</span> <span style="color:#CC6600; font-weight:bold;">/</span> <span style="color:#800000; font-weight:bold;">10</span> <span style="color:#CC6600; font-weight:bold;">*</span> <span style="color:#993300; font-weight:bold;">;</span>
+
+<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;NUMBER</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">b -- n )</span>
+    <span style="color:#800000; font-weight:bold;">64</span> <span style="color:#CC6600; font-weight:bold;">/MOD</span>
+    <span style="color:#336699; font-weight:bold;">FLAGS/CELL</span> <span style="color:#CC6600; font-weight:bold;">*</span>
+    <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;TENS</span>
+    <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;UNITS</span>
+    <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#993300; font-weight:bold;">;</span>
+
+<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;IS-PRIME?</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">b -- f )</span>
+    <span style="color:#800000; font-weight:bold;">64</span> <span style="color:#CC6600; font-weight:bold;">/MOD</span>
+    <span style="color:#CC3300; font-weight:bold;">CELLS</span> <span style="color:#336699; font-weight:bold;">SIEVE</span> <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#CC3300; font-weight:bold;">@</span>
+    <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#336699; font-weight:bold;">BITMASK</span> <span style="color:#CC6600; font-weight:bold;">AND</span> <span style="color:#993300; font-weight:bold;">;</span>
+
+
+<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">NEXT-SMALL-PRIME</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">b -- b',p )</span>
+    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">0</span> <span style="color:#CC6600; font-weight:bold;">=</span> <span style="color:#993300; font-weight:bold;">IF</span> <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#993300; font-weight:bold;">ELSE</span>
+    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">1</span>  <span style="color:#CC6600; font-weight:bold;">=</span> <span style="color:#993300; font-weight:bold;">IF</span> <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#800000; font-weight:bold;">3</span> <span style="color:#993300; font-weight:bold;">ELSE</span>
+    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">2</span>  <span style="color:#CC6600; font-weight:bold;">=</span> <span style="color:#993300; font-weight:bold;">IF</span> <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#800000; font-weight:bold;">5</span> <span style="color:#993300; font-weight:bold;">ELSE</span>
+    <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#800000; font-weight:bold;">7</span> <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">;</span>
+
+<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">NEXT-PRIME</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">b -- b',p )</span>
+    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">4</span> <span style="color:#CC6600; font-weight:bold;">&lt;</span> <span style="color:#993300; font-weight:bold;">IF</span>
+        <span style="color:#336699; font-weight:bold;">NEXT-SMALL-PRIME</span>
+    <span style="color:#993300; font-weight:bold;">ELSE</span>
+        <span style="color:#993300; font-weight:bold;">BEGIN</span>
+            <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;NUMBER</span>
+            <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">PRIME-LIMIT</span> <span style="color:#CC6600; font-weight:bold;">&lt;=</span>
+            <span style="color:#009999; font-weight:bold;">ROT</span> <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;IS-PRIME?</span> <span style="color:#CC6600; font-weight:bold;">0=</span>
+            <span style="color:#009999; font-weight:bold;">ROT</span> <span style="color:#CC6600; font-weight:bold;">AND</span>
+        <span style="color:#993300; font-weight:bold;">WHILE</span>
+            <span style="color:#009999; font-weight:bold;">NIP</span> <span style="color:#CC6600; font-weight:bold;">1+</span>
+        <span style="color:#993300; font-weight:bold;">REPEAT</span>
+        <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#009999; font-weight:bold;">SWAP</span>
+    <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">;</span>
+
 <span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">.PRIMES</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- )</span>
-    <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#993300; font-weight:bold;">DO</span> <span style="color:#993300; font-weight:bold;">I</span> <span style="color:#336699; font-weight:bold;">IS-PRIME?</span> <span style="color:#993300; font-weight:bold;">IF</span> <span style="color:#993300; font-weight:bold;">I</span> <span style="color:#CC6600; font-weight:bold;">.</span> <span style="color:#3D3D5C; font-weight:bold;">CR</span> <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">LOOP</span> <span style="color:#993300; font-weight:bold;">;</span>
+    <span style="color:#009999; font-weight:bold;">&gt;R</span> <span style="color:#800000; font-weight:bold;">0</span>
+    <span style="color:#993300; font-weight:bold;">BEGIN</span>
+        <span style="color:#336699; font-weight:bold;">NEXT-PRIME</span>
+        <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#009999; font-weight:bold;">R@</span> <span style="color:#CC6600; font-weight:bold;">&lt;=</span> <span style="color:#993300; font-weight:bold;">WHILE</span>
+        <span style="color:#CC6600; font-weight:bold;">.</span> <span style="color:#3D3D5C; font-weight:bold;">CR</span>
+    <span style="color:#993300; font-weight:bold;">REPEAT</span> <span style="color:#009999; font-weight:bold;">R&gt;</span> <span style="color:#009999; font-weight:bold;">DROP</span> <span style="color:#993300; font-weight:bold;">;</span>
 
 <span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">PRIME-COUNT</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- n )</span>
-    <span style="color:#800000; font-weight:bold;">0</span> <span style="color:#009999; font-weight:bold;">SWAP</span>
-    <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#993300; font-weight:bold;">DO</span>
-        <span style="color:#993300; font-weight:bold;">I</span> <span style="color:#336699; font-weight:bold;">IS-PRIME?</span> <span style="color:#993300; font-weight:bold;">IF</span>
-            <span style="color:#CC6600; font-weight:bold;">1+</span>
-        <span style="color:#993300; font-weight:bold;">THEN</span>
-    <span style="color:#993300; font-weight:bold;">LOOP</span> <span style="color:#993300; font-weight:bold;">;</span>
+    <span style="color:#009999; font-weight:bold;">&gt;R</span> <span style="color:#800000; font-weight:bold;">0</span> <span style="color:#800000; font-weight:bold;">0</span>
+    <span style="color:#993300; font-weight:bold;">BEGIN</span>
+        <span style="color:#336699; font-weight:bold;">NEXT-PRIME</span>
+        <span style="color:#009999; font-weight:bold;">R@</span> <span style="color:#CC6600; font-weight:bold;">&lt;=</span> <span style="color:#993300; font-weight:bold;">WHILE</span>
+        <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#009999; font-weight:bold;">SWAP</span>
+    <span style="color:#993300; font-weight:bold;">REPEAT</span> <span style="color:#009999; font-weight:bold;">R&gt;</span> <span style="color:#009999; font-weight:bold;">DROP</span> <span style="color:#009999; font-weight:bold;">DROP</span> <span style="color:#993300; font-weight:bold;">;</span>
+    
 </pre>
