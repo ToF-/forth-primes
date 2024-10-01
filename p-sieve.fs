@@ -83,62 +83,59 @@ INIT-SIEVE
         SIEVE-POS @ SWAP AND
     THEN THEN ;
 
+: BIT#>UNITS ( b -- n )
+    4 MOD
+    DUP 2/ 2*
+    SWAP 2* 1+ + ;
+
+: BIT#>TENS ( b -- n )
+    4 / 10 * ;
 
 : BIT#>NUMBER ( b -- n )
-    DUP 4 / 10 *
-    SWAP 4 MOD
-    DUP 2* 1+
-    SWAP 2/ 2*
+    64 /MOD
+    FLAGS/CELL *
+    SWAP DUP BIT#>TENS
+    SWAP BIT#>UNITS
     + + ;
 
+: BIT#>IS-PRIME? ( b -- f )
+    64 /MOD
+    CELLS SIEVE + @
+    1 ROT LSHIFT AND ;
 
-: SIEVE-NUMBER ( c -- n )
-    DUP 64 /MOD
-    FLAGS/CELL *
-    SWAP BIT#>NUMBER + ;
 
-: BIT-VALUE-OFFSET ( n -- o )
-    4 MOD
-    2 = IF
-        2
+: NEXT-SMALL-PRIME ( b -- b',p )
+    DUP 0 = IF 1+ 2 ELSE
+    DUP 1  = IF 1+ 3 ELSE
+    DUP 2  = IF 1+ 5 ELSE
+    1+ 7 THEN THEN THEN ;
+
+: NEXT-PRIME ( b -- b',p )
+    DUP 4 < IF
+        NEXT-SMALL-PRIME
     ELSE
-        0
-    THEN 2 + ;
-
-: NEXT-SIEVE-VALUE ( n,v -- n',v' )
-    2DUP 2 3 D= IF 2DROP 2 5 ELSE
-    2DUP 2 5 D= IF 2DROP 3 7 ELSE
-    OVER BIT-VALUE-OFFSET + SWAP 1+ SWAP 
-    THEN THEN ;
-
-: NEXT-PRIME ( n,p -- n',p' )
-    BEGIN
-        NEXT-SIEVE-VALUE           \ n,p
-        DUP PRIME-LIMIT <= >R      \ n,p
-        OVER FLAGS/CELL MOD 1 SWAP LSHIFT
-        OVER SIEVE-POS
-        @ SWAP AND 0=
-        R> AND WHILE
-    REPEAT ;
-
-\     THEN THEN THEN ;
-\ 
-\ : .ALL-PRIMES ( n -- )
-\     >R PRIME-POS-2
-\     BEGIN
-\         NEXT-PRIME
-\         DUP R@ < WHILE
-\         . CR
-\     REPEAT
-\     DROP R> DROP ;
+        BEGIN
+            DUP BIT#>NUMBER              \ b',n
+            DUP  PRIME-LIMIT <=          \ b',n,l
+            ROT DUP BIT#>IS-PRIME? 0=    \ n,l,b',f
+            ROT SWAP AND WHILE           \ n,b'
+            NIP 1+
+        REPEAT 1+ SWAP
+    THEN ;
 
 : .PRIMES ( n -- )
-    1+ 2 DO I IS-PRIME? IF I . CR THEN LOOP ;
+    >R 0
+    BEGIN
+        NEXT-PRIME
+        DUP R@ <= WHILE
+        . CR
+    REPEAT R> DROP ;
 
 : PRIME-COUNT ( n -- n )
-    0 SWAP
-    1+ 2 DO
-        I IS-PRIME? IF
-            1+
-        THEN
-    LOOP ;
+    >R 0 0
+    BEGIN
+        NEXT-PRIME
+        R@ <= WHILE
+        SWAP 1+ SWAP
+    REPEAT R> DROP DROP ;
+    
