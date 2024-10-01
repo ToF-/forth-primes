@@ -101,7 +101,7 @@ INIT-SIEVE
 : BIT#>IS-PRIME? ( b -- f )
     64 /MOD
     CELLS SIEVE + @
-    1 ROT LSHIFT AND ;
+    SWAP BITMASK AND ;
 
 
 : NEXT-SMALL-PRIME ( b -- b',p )
@@ -115,12 +115,14 @@ INIT-SIEVE
         NEXT-SMALL-PRIME
     ELSE
         BEGIN
-            DUP BIT#>NUMBER              \ b',n
-            DUP  PRIME-LIMIT <=          \ b',n,l
-            ROT DUP BIT#>IS-PRIME? 0=    \ n,l,b',f
-            ROT SWAP AND WHILE           \ n,b'
+            DUP BIT#>NUMBER
+            DUP PRIME-LIMIT <=
+            ROT DUP BIT#>IS-PRIME? 0=
+            ROT AND
+        WHILE
             NIP 1+
-        REPEAT 1+ SWAP
+        REPEAT
+        1+ SWAP
     THEN ;
 
 : .PRIMES ( n -- )
