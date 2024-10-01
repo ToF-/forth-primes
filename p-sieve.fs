@@ -9,52 +9,38 @@ REQUIRE small-primes.fs
     MOD 0= ;
 
 : NOT-2-OR-5-MULTIPLE? ( n -- f )
-    DUP 2 IS-MULTIPLE?
-    SWAP 5 IS-MULTIPLE? OR 0=  ;
+    DUP 2 MOD IF
+        5 MOD
+    ELSE
+        DROP FALSE
+    THEN ;
 
 1000 SQUARED CONSTANT PRIME-LIMIT
+160 CONSTANT FLAGS/CELL
 
-PRIME-LIMIT 20 / CONSTANT SIEVE-SIZE
+PRIME-LIMIT FLAGS/CELL / CELLS CONSTANT SIEVE-SIZE
 
 CREATE SIEVE SIEVE-SIZE ALLOT
-
-: NOR ( f,g -- ! [f or g] )
-    OR 0= ;
 
 : REVERSE ( b -- b )
     255 XOR ;
 
-160 CONSTANT FLAGS/CELL
-
 : BITMASK ( n -- v )
     1 SWAP LSHIFT ;
-
-: INIT-SIEVE-MASKS
-    0
-    160 0 DO
-        I NOT-2-OR-5-MULTIPLE? IF
-            DUP BITMASK ,
-            1+
-        ELSE
-            0 ,
-        THEN
-    LOOP DROP ;
-
-CREATE SIEVE-MASKS
-INIT-SIEVE-MASKS
 
 : SIEVE-POS ( n -- addr )
     FLAGS/CELL / CELLS SIEVE + ;
 
 : SIEVE-MASK ( n -- bitmask )
-    FLAGS/CELL MOD CELLS SIEVE-MASKS + @ ;
+    FLAGS/CELL MOD
+    10 /MOD 4 *
+    SWAP DUP 5 > IF 2 - THEN
+    2/ + BITMASK ;
 
 : SIEVE! ( n -- )
-    DUP NOT-2-OR-5-MULTIPLE? IF
-        DUP SIEVE-MASK INVERT
-        SWAP SIEVE-POS
-        DUP @ ROT AND SWAP !
-    ELSE DROP THEN ;
+    DUP SIEVE-MASK INVERT
+    SWAP SIEVE-POS
+    DUP @ ROT AND SWAP ! ;
 
 : INIT-SIEVE
     SIEVE SIEVE-SIZE 255 FILL
@@ -64,7 +50,9 @@ INIT-SIEVE-MASKS
         DUP SQUARED
         BEGIN
             DUP PRIME-LIMIT <= WHILE
-            DUP SIEVE!
+            DUP NOT-2-OR-5-MULTIPLE? IF
+                DUP SIEVE!
+            THEN
             OVER +
         REPEAT
         2DROP DROP
