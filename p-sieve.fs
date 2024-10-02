@@ -60,17 +60,6 @@ CREATE SIEVE SIEVE-SIZE ALLOT
 
 INIT-SIEVE
 
-: IS-PRIME? ( n -- f )
-    ASSERT( DUP PRIME-LIMIT <= )
-    ASSERT( DUP 1 > )
-    DUP 2 IS-MULTIPLE? IF 2 =
-    ELSE
-        DUP 5 IS-MULTIPLE? IF 5 =
-    ELSE
-        DUP SIEVE-MASK SWAP
-        SIEVE-POS @ SWAP AND
-    THEN THEN ;
-
 : BIT#>UNITS ( b -- n )
     4 MOD
     DUP 2/ 2*

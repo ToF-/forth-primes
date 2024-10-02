@@ -115,32 +115,12 @@ To initialize the whole sieve, we start filling it with ones, mark the number 1 
     <span style="color:#993300; font-weight:bold;">LOOP</span> <span style="color:#993300; font-weight:bold;">;</span>
 </pre>
 
-<pre>
-<span style="color:#336699; font-weight:bold;">INIT-SIEVE</span>
+To enumerate prime numbers we can traverse the sieve bit by bit using a counter.
 
-<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">IS-PRIME?</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- f )</span>
-    <span style="color:#3D3D5C; font-weight:bold;">ASSERT(</span> <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">PRIME-LIMIT</span> <span style="color:#CC6600; font-weight:bold;">&lt;=</span> <span style="color:#3D3D5C; font-weight:bold;">)</span>
-    <span style="color:#3D3D5C; font-weight:bold;">ASSERT(</span> <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">1</span> <span style="color:#CC6600; font-weight:bold;">&gt;</span> <span style="color:#3D3D5C; font-weight:bold;">)</span>
-    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#336699; font-weight:bold;">IS-MULTIPLE?</span> <span style="color:#993300; font-weight:bold;">IF</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#CC6600; font-weight:bold;">=</span>
-    <span style="color:#993300; font-weight:bold;">ELSE</span>
-        <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">5</span> <span style="color:#336699; font-weight:bold;">IS-MULTIPLE?</span> <span style="color:#993300; font-weight:bold;">IF</span> <span style="color:#800000; font-weight:bold;">5</span> <span style="color:#CC6600; font-weight:bold;">=</span>
-    <span style="color:#993300; font-weight:bold;">ELSE</span>
-        <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">SIEVE-MASK</span> <span style="color:#009999; font-weight:bold;">SWAP</span>
-        <span style="color:#336699; font-weight:bold;">SIEVE-POS</span> <span style="color:#CC3300; font-weight:bold;">@</span> <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#CC6600; font-weight:bold;">AND</span>
-    <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">;</span>
+At any moment in this traversal except for the first 4 bits, the number examined is
 
-<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;UNITS</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">b -- n )</span>
-    <span style="color:#800000; font-weight:bold;">4</span> <span style="color:#CC6600; font-weight:bold;">MOD</span>
-    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#CC6600; font-weight:bold;">2/</span> <span style="color:#CC6600; font-weight:bold;">2*</span>
-    <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#CC6600; font-weight:bold;">2*</span> <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#993300; font-weight:bold;">;</span>
+N = ⌊C/64⌋ x 160 + ⌊(B/4⌋ x 10 + ⌊B%4/2⌋ x 2 + (B%4) x 2 + 1
 
-<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;TENS</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">b -- n )</span>
-    <span style="color:#800000; font-weight:bold;">4</span> <span style="color:#CC6600; font-weight:bold;">/</span> <span style="color:#800000; font-weight:bold;">10</span> <span style="color:#CC6600; font-weight:bold;">*</span> <span style="color:#993300; font-weight:bold;">;</span>
+where C = counter and B = C%64
 
-<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;NUMBER</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">b -- n )</span>
-    <span style="color:#800000; font-weight:bold;">64</span> <span style="color:#CC6600; font-weight:bold;">/MOD</span>
-    <span style="color:#336699; font-weight:bold;">FLAGS/CELL</span> <span style="color:#CC6600; font-weight:bold;">*</span>
-    <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;TENS</span>
-    <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;UNITS</span>
-    <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#993300; font-weight:bold;">;</span>
-</pre>
+The cell position to inspect, P = ⌊C/160⌋. The bitmask to apply M = 2^B where B = T x 4 + 
