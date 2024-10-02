@@ -62,8 +62,9 @@ INIT-SIEVE
 
 : BIT#>UNITS ( b -- n )
     4 MOD
-    DUP 2/ 2*
-    SWAP 2* 1+ + ;
+    DUP 2 AND
+    SWAP 2*
+    1 + + ;
 
 : BIT#>TENS ( b -- n )
     4 / 10 * ;

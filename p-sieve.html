@@ -60,21 +60,11 @@
 
 <span style="color:#336699; font-weight:bold;">INIT-SIEVE</span>
 
-<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">IS-PRIME?</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- f )</span>
-    <span style="color:#3D3D5C; font-weight:bold;">ASSERT(</span> <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">PRIME-LIMIT</span> <span style="color:#CC6600; font-weight:bold;">&lt;=</span> <span style="color:#3D3D5C; font-weight:bold;">)</span>
-    <span style="color:#3D3D5C; font-weight:bold;">ASSERT(</span> <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">1</span> <span style="color:#CC6600; font-weight:bold;">&gt;</span> <span style="color:#3D3D5C; font-weight:bold;">)</span>
-    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#336699; font-weight:bold;">IS-MULTIPLE?</span> <span style="color:#993300; font-weight:bold;">IF</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#CC6600; font-weight:bold;">=</span>
-    <span style="color:#993300; font-weight:bold;">ELSE</span>
-        <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">5</span> <span style="color:#336699; font-weight:bold;">IS-MULTIPLE?</span> <span style="color:#993300; font-weight:bold;">IF</span> <span style="color:#800000; font-weight:bold;">5</span> <span style="color:#CC6600; font-weight:bold;">=</span>
-    <span style="color:#993300; font-weight:bold;">ELSE</span>
-        <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#336699; font-weight:bold;">SIEVE-MASK</span> <span style="color:#009999; font-weight:bold;">SWAP</span>
-        <span style="color:#336699; font-weight:bold;">SIEVE-POS</span> <span style="color:#CC3300; font-weight:bold;">@</span> <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#CC6600; font-weight:bold;">AND</span>
-    <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">THEN</span> <span style="color:#993300; font-weight:bold;">;</span>
-
 <span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;UNITS</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">b -- n )</span>
     <span style="color:#800000; font-weight:bold;">4</span> <span style="color:#CC6600; font-weight:bold;">MOD</span>
-    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#CC6600; font-weight:bold;">2/</span> <span style="color:#CC6600; font-weight:bold;">2*</span>
-    <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#CC6600; font-weight:bold;">2*</span> <span style="color:#CC6600; font-weight:bold;">1+</span> <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#993300; font-weight:bold;">;</span>
+    <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#CC6600; font-weight:bold;">AND</span>
+    <span style="color:#009999; font-weight:bold;">SWAP</span> <span style="color:#CC6600; font-weight:bold;">2*</span>
+    <span style="color:#800000; font-weight:bold;">1</span> <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#993300; font-weight:bold;">;</span>
 
 <span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">BIT#&gt;TENS</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">b -- n )</span>
     <span style="color:#800000; font-weight:bold;">4</span> <span style="color:#CC6600; font-weight:bold;">/</span> <span style="color:#800000; font-weight:bold;">10</span> <span style="color:#CC6600; font-weight:bold;">*</span> <span style="color:#993300; font-weight:bold;">;</span>
