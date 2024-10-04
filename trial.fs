@@ -9,18 +9,12 @@
 : IS-PRIME? ( n -- n|0 )
     2 BEGIN
         2DUP SQUARED >= WHILE
-        2DUP IS-MULTIPLE? IF NIP 0 SWAP THEN
-        1+
-    REPEAT
-    DROP ;
+        2DUP IS-MULTIPLE? IF NIP 0 SWAP ELSE 1+ THEN
+    REPEAT DROP ;
 
 : .PRIMES ( n -- )
-    1+ 2 DO
-        I IS-PRIME? IF I . CR THEN
-   LOOP ;
+    1+ 2 DO I IS-PRIME? IF I . CR THEN LOOP ;
 
 : PRIME-COUNT ( n -- t )
     0 SWAP
-    1+ 2 DO
-        I IS-PRIME? IF 1+ THEN
-    LOOP ;
+    1+ 2 DO I IS-PRIME? IF 1+ THEN LOOP ;
