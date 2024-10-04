@@ -15,22 +15,21 @@ As we are dealing with integers, D going from 2 to √N is easier to achieve by 
     <span style="color:#009999; font-weight:bold;">DUP</span> <span style="color:#CC6600; font-weight:bold;">*</span> <span style="color:#993300; font-weight:bold;">;</span>
 </pre>
 
-The word `IS-PRIME?` expects a number on the stack, and will a boolean result. 
+The word `IS-PRIME?` expects a number N on the stack, and will return N is N is prime, 0 is N is composite.
 
-<pre><span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">IS-PRIME?</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- f )</span>
-    <span style="color:#CC6600; font-weight:bold;">TRUE</span> <span style="color:#009999; font-weight:bold;">SWAP</span>
+<pre>
+<span style="color:#F07F00; font-weight:bold;">:</span> <span style="color:#336699; font-weight:bold;">IS-PRIME?</span> <span style="color:#669999; font-weight:bold;">(</span> <span style="color:#669999; font-weight:bold;">n -- f )</span>
     <span style="color:#800000; font-weight:bold;">2</span> <span style="color:#993300; font-weight:bold;">BEGIN</span>
         <span style="color:#009999; font-weight:bold;">2DUP</span> <span style="color:#336699; font-weight:bold;">SQUARED</span> <span style="color:#CC6600; font-weight:bold;">&gt;=</span> <span style="color:#993300; font-weight:bold;">WHILE</span>
         <span style="color:#009999; font-weight:bold;">2DUP</span> <span style="color:#336699; font-weight:bold;">IS-MULTIPLE?</span> <span style="color:#993300; font-weight:bold;">IF</span>
-            <span style="color:#009999; font-weight:bold;">ROT</span> <span style="color:#009999; font-weight:bold;">DROP</span> <span style="color:#CC6600; font-weight:bold;">FALSE</span> <span style="color:#009999; font-weight:bold;">-ROT</span>
-            <span style="color:#009999; font-weight:bold;">SWAP</span>
+            <span style="color:#009999; font-weight:bold;">NIP</span> <span style="color:#CC6600; font-weight:bold;">FALSE</span> <span style="color:#009999; font-weight:bold;">SWAP</span>
         <span style="color:#993300; font-weight:bold;">THEN</span>
         <span style="color:#CC6600; font-weight:bold;">1+</span>
     <span style="color:#993300; font-weight:bold;">REPEAT</span>
-    <span style="color:#009999; font-weight:bold;">2DROP</span> <span style="color:#993300; font-weight:bold;">;</span>
+    <span style="color:#009999; font-weight:bold;">DROP</span> <span style="color:#993300; font-weight:bold;">;</span>
 </pre>
 
-It starts with tucking a `TRUE` result flag behind the number argument. Starting with 2, and as long as N ≥ D², it checks if N is a multiple of D. If that's the case, the result flag is dropped and replaced with `FALSE`, and N and D are swapped on the stack to force an exit on the next loop. Otherwise, D is increased by 1.
+Starting with D = 2, and as long as N ≥ D², it checks if N is a multiple of D. If that's the case N is replaced with 0 on the stack, which will stop the loop and set the result to false. Otherwise, D is increased by 1 and the loop goes on.
 
 A word `.PRIMES` will print all primes up to a number by `LOOP`ing from 2 to N+1 excluded, checking if the loop index is prime, printing it if that's the case.
 
