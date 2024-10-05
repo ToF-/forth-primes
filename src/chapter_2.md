@@ -1,8 +1,22 @@
 # Using prime divisors to find primes
 
-Not all numbers have to be tried as divisors to check if a number is prime: the fundamental theorem of arithmetics says that every integer greater than 1 can be uniquely represented as a product of prime numbers. Thus any division by a composite number is redundant if the division by its prime factors have been already tried. For instance 4807 is 11 x 13 x 23, so only divisions by 2,3,5,7 and 11 should be tried to find that 4807 is not prime, and divisions by 4,6,8,9,10 are redundant.
+When using trial division to find primes not all numbers have to be tried. The fundamental theorem of arithmetics says that every integer greater than 1 can be uniquely represented as a product of prime numbers. This means that any division by a composite number is redundant if the division by its prime factors have been already tried.
 
-We can improve the performance of our program by using a list of prime numbers as divisors rather than increasing the divisor by 1 at every loop. That means we need to have a table of these divisors, up to a number, let's say 1000. 
+For instance 4807 is 11 x 13 x 23, so only 5 divisors should be tried, { 2, 3, 5, 7, 11 } instead of 67, from 2 to 68.
+
+In order to use prime numbers as divisors, we need to have them in a table. If we want to find primes up to 1000000, we need a table of primes from 2 to 1000. 
+
+In Forth, the memory space that is used to store word definitions, called the _dictionary_ can also serve for storing values.
+
+| forth word | effect | behavior |
+| ---------- | ------ | -------- |
+| `CREATE` |  | followed by _\<name\>_, reserve a new space in the available in the dictionary. When _\<name\>_ is executed, it will leave the address of the memory zone |
+| `ALLOT` | n → _ | reserve n bytes in the available space in the dictionary |
+| `,` | n → _ | compile the cell value in the available space in the dictionary |
+| `@` | a → n | fetch the cell value stored at the given address |
+| `!` | n,a → | store the cell value n at the given address |
+| CELL | _ → n | a constant leaving the number of bytes in a cell value (8 in gforth) |
+| CELLS | n → n | a helper word to multiply and index by `CELL` |
 
 Here's a program that outputs the code for such a table initialization. It loops over number 2 to 1000, and uses a counter so that à `CR` is emitted every 14 numbers. Also the numbers are printed on 4 positions each, and followed by a `,` which is the word to compile a new value in the dictionay, thus creating a table of values.
 
