@@ -11,19 +11,15 @@ REQUIRE small-primes.fs
 1000 SQUARED CONSTANT PRIME-LIMIT
 
 : IS-PRIME? ( n -- f )
-    ASSERT( DUP PRIME-LIMIT <= )
-    TRUE SWAP
+    DUP PRIME-LIMIT > IF ABORT" number too large" THEN
     SMALL-PRIMES-MAX 0 DO
         I NTH-PRIME
         2DUP SQUARED < IF
             DROP LEAVE
-        ELSE
-            OVER SWAP IS-MULTIPLE? IF
-                NIP FALSE SWAP
-                LEAVE
-            THEN
-        THEN
-    LOOP DROP ;
+        ELSE OVER -ROT IS-MULTIPLE? IF
+            DROP FALSE LEAVE
+        THEN THEN
+    LOOP ;
 
 : .PRIMES ( n -- )
     1+ 2 DO
