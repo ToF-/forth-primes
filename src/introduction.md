@@ -23,5 +23,8 @@ Here are some of these words :
 | `/` | a,b → ⌊a/b⌋ | integer division |
 | `MOD` | a,b → a mod b  | modulo|
 | `.` | a → _ | display the top value, removing it from the stack |
+| `.R` | n,p → _ | display _\<n>_ on _\<p\>_ positions (left padding) |
+| `CR` | _ | outputs a CRLF on the standard output |
+| `." …"` |  | display characters until " |
 
 More interesting words will reveal useful as we go forward in our programming task.

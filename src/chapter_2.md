@@ -11,6 +11,8 @@ In Forth, the memory space that is used to store word definitions, called the _d
 | forth word | effect | behavior |
 | ---------- | ------ | -------- |
 | `CREATE` |  | followed by _\<name\>_, reserve a new space in the available in the dictionary. When _\<name\>_ is executed, it will leave the address of the memory zone |
+| `CONSTANT` | n → _ | followed by _\<name\>_, create a constant with value n in the dictionary. When _\<name\>_ is executed, the value is pushed on the stack |
+| `VARIABLE` | | followed by _\<name\>_, create a variable in the dictionary. When _\<name\>_ is executed, the address of the variable is pushed on the stack |
 | `ALLOT` | n → _ | reserve n bytes in the available space in the dictionary |
 | `,` | n → _ | compile the cell value in the available space in the dictionary |
 | `@` | a → n | fetch the cell value stored at the given address |
@@ -19,8 +21,6 @@ In Forth, the memory space that is used to store word definitions, called the _d
 | CELLS | n → n | a helper word to multiply and index by `CELL` |
 
 Here's a program that outputs the code for such a table initialization. It loops over number 2 to 1000, and uses a counter so that à `CR` is emitted every 14 numbers. Also the numbers are printed on 4 positions each, and followed by a `,` which is the word to compile a new value in the dictionay, thus creating a table of values.
-
-
 
 <pre><span style="color:#669999; font-weight:bold;">\</span> <span style="color:#669999; font-weight:bold;">print-init-168-primes.fs output code for prime divisor table init
 </span><span style="color:#3D3D5C; font-weight:bold;">REQUIRE</span> <span style="color:#800000; font-weight:bold;">trial.fs</span>
@@ -46,7 +46,7 @@ Here's a program that outputs the code for such a table initialization. It loops
 </pre>
 Lauching this program and capturing its output
 ```
-> gforth print-init-168-primes >small-primes
+> gforth print-init-168-primes >small-primes.fs
 ```
 Will give us exactly what we need to improve our trial program.
 
@@ -73,4 +73,13 @@ Will give us exactly what we need to improve our trial program.
     <span style="color:#CC3300; font-weight:bold;">CELLS</span> <span style="color:#336699; font-weight:bold;">SMALL-PRIMES</span> <span style="color:#CC6600; font-weight:bold;">+</span> <span style="color:#CC3300; font-weight:bold;">@</span> <span style="color:#993300; font-weight:bold;">;</span>
 </pre>
 
-
+Let's try our code:
+```
+> gforth small-primes.fs
+Gforth 0.7.3, Copyright (C) 1995-2008 Free Software Foundation, Inc.
+Gforth comes with ABSOLUTELY NO WARRANTY; for details type `license'
+Type `bye' to exit
+42 NTH-PRIME . ⏎ 191  ok
+0 NTH-PRIME . ⏎ 2  ok
+167 NTH-PRIME . ⏎ 997  ok
+```
